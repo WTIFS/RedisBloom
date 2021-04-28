@@ -238,10 +238,12 @@ static CuckooInsertStatus CuckooFilter_InsertFP(CuckooFilter *filter, const Look
         return CuckooInsert_Inserted;
     }
 
+    //如果上面没有插入成功，这里会新增一个filter
     if (CuckooFilter_Grow(filter) != 0) {
         return CuckooInsert_MemAllocFailed;
     }
 
+    //然后再插入
     // Try to insert the filter again
     return CuckooFilter_InsertFP(filter, params);
 }
