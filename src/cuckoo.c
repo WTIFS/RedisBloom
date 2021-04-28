@@ -29,6 +29,9 @@ static uint64_t getNextN2(uint64_t n) {
     return n;
 }
 
+//filter是个链表，filter.data是个bucket，默认bucket size是2，默认1个filter就够了（一维数组）
+//当插入重复元素时，会先尝试把2个位置的bucket都填满，如果都满了，会触发Grow
+//Grow会新建一个filter，后续所有的查询都会遍历fitler进行查询
 int CuckooFilter_Init(CuckooFilter *filter, uint64_t capacity, uint16_t bucketSize,
                       uint16_t maxIterations, uint16_t expansion) {
     memset(filter, 0, sizeof(*filter));
